@@ -26,7 +26,7 @@ agri.read_csv <- function(dir_folder){
 #' @description \code{agri.interpolate}
 #' @export
 
-agri.interpolate <- function(df, obj, kernel = "rbfdot"){
+agri.interpolate <- function(df, target, kernel = "rbfdot"){
   library(tidyverse)
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
@@ -50,7 +50,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
     )
 
   # ここから目的変数ベクトルの作成
-  dep <- df[,obj]
+  dep <- df[,target]
   key <- df[, "KEY_CODE"]
   dep <- bind_cols(key, dep)
   dep <- dep %>%
@@ -66,11 +66,11 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   indep_learn <- na.omit(merged) %>%
     dplyr::select(-contains("KEY"))
   # 正解データ
-  dep_learn <- indep_learn[,obj] %>%
+  dep_learn <- indep_learn[,target] %>%
     as.matrix()
   # 学習データ
   indep_learn <- indep_learn %>%
-    dplyr::select(-obj) %>%
+    dplyr::select(-target) %>%
     as.matrix()
   # ここまでで学習用のデータセットができた．
 
@@ -109,7 +109,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
 
   # 欠損のあるデータだけのデータフレームを作成
   key <- df[, "KEY_CODE"]
-  dep <- df[, obj]
+  dep <- df[, target]
   key_dep <- bind_cols(key, dep) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     filter(KEY_CODE%%1000 != 0)
@@ -122,19 +122,19 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   # 予測値の出力
   predicted_vec <- predict(fit, target)
   key_predicted <- bind_cols(predicted_vec, key_dep)
-  colnames(key_predicted)[1] <- paste("inputed", obj, sep = "_")
+  colnames(key_predicted)[1] <- paste("inputed", target, sep = "_")
   key_predicted <- key_predicted %>%
     dplyr::select(1, 2)
   # 予測データのヒストを作成
   predicted_summary <- summary(key_predicted[,1])
 
   #欠損していなかったデータのKEYと...1のデータフレームを作成
-  not_miss <- df[, obj]
+  not_miss <- df[, target]
   not_miss <- bind_cols(not_miss, key) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     filter(KEY_CODE%%1000 != 0)
   not_miss <- not_miss[!is.na(not_miss[, 1]), ]
-  colnames(not_miss)[1] <- paste("inputed", obj, sep = "_")
+  colnames(not_miss)[1] <- paste("inputed", target, sep = "_")
 
   # データの結合
   ret_df <- bind_rows(not_miss, key_predicted) %>%
