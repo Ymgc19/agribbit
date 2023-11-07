@@ -27,7 +27,6 @@ agri.read_csv <- function(dir_folder){
 #' @export
 
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
-  library(tidyverse)
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
   indep <- df %>%
@@ -79,13 +78,13 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   fit
 
   # 真値と予測値のgeom_point
-  true.vs.predicted <- ggplot()+
-    geom_point()+
-    aes(predict(fit, indep_learn), dep_learn)+
-    geom_density_2d(size = .2)+
-    geom_abline(intercept = 0)+
-    labs(x = "predicted", y = "TRUE")+
-    theme_minimal()
+#  true.vs.predicted <- ggplot()+
+#    geom_point()+
+#    aes(predict(fit, indep_learn), dep_learn)+
+#    geom_density_2d(size = .2)+
+#    geom_abline(intercept = 0)+
+#    labs(x = "predicted", y = "TRUE")+
+#    theme_minimal()
 
   # 欠損しているデータの説明変数行列を作成する
   indep <- df %>%
@@ -140,8 +139,8 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   ret_df <- bind_rows(not_miss, key_predicted) %>%
     # ここでソートするkeycodeで
     arrange(KEY_CODE)
-  ret_df <- left_join(df, ret_df, by = "KEY_CODE")
 
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
                predicted_summary = predicted_summary) )
 }
+
