@@ -26,7 +26,6 @@ agri.read_csv <- function(dir_folder){
 #' @description \code{agri.interpolate}
 #' @export
 
-
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
@@ -144,4 +143,3 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
                predicted_summary = predicted_summary) )
 }
-
