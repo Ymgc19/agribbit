@@ -26,7 +26,8 @@ agri.read_csv <- function(dir_folder){
 #' @description \code{agri.interpolate}
 #' @export
 
-agri.interpolate <- function(df, target, kernel = "rbfdot"){
+
+agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   library(tidyverse)
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
@@ -50,7 +51,7 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
     )
 
   # ここから目的変数ベクトルの作成
-  dep <- df[,target]
+  dep <- df[,obj]
   key <- df[, "KEY_CODE"]
   dep <- bind_cols(key, dep)
   dep <- dep %>%
@@ -66,11 +67,11 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
   indep_learn <- na.omit(merged) %>%
     dplyr::select(-contains("KEY"))
   # 正解データ
-  dep_learn <- indep_learn[,target] %>%
+  dep_learn <- indep_learn[,obj] %>%
     as.matrix()
   # 学習データ
   indep_learn <- indep_learn %>%
-    dplyr::select(-target) %>%
+    dplyr::select(-obj) %>%
     as.matrix()
   # ここまでで学習用のデータセットができた．
 
@@ -109,32 +110,32 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
 
   # 欠損のあるデータだけのデータフレームを作成
   key <- df[, "KEY_CODE"]
-  dep <- df[, target]
+  dep <- df[, obj]
   key_dep <- bind_cols(key, dep) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     filter(KEY_CODE%%1000 != 0)
   # データフレームの2列目を削除
   key_dep <- key_dep[is.na(key_dep[, 2]), ]
   # indepとkey_depを結合．欠損していたデータだけのDFを作成→matrix
-  tar <- left_join(key_dep, indep, by = "KEY_CODE") %>%
+  target <- left_join(key_dep, indep, by = "KEY_CODE") %>%
     dplyr::select(-1, -2) %>%
     as.matrix()
   # 予測値の出力
-  predicted_vec <- predict(fit, tar)
+  predicted_vec <- predict(fit, target)
   key_predicted <- bind_cols(predicted_vec, key_dep)
-  colnames(key_predicted)[1] <- paste("inputed", target, sep = "_")
+  colnames(key_predicted)[1] <- paste("inputed", obj, sep = "_")
   key_predicted <- key_predicted %>%
     dplyr::select(1, 2)
   # 予測データのヒストを作成
   predicted_summary <- summary(key_predicted[,1])
 
   #欠損していなかったデータのKEYと...1のデータフレームを作成
-  not_miss <- df[, target]
+  not_miss <- df[, obj]
   not_miss <- bind_cols(not_miss, key) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     filter(KEY_CODE%%1000 != 0)
   not_miss <- not_miss[!is.na(not_miss[, 1]), ]
-  colnames(not_miss)[1] <- paste("inputed", target, sep = "_")
+  colnames(not_miss)[1] <- paste("inputed", obj, sep = "_")
 
   # データの結合
   ret_df <- bind_rows(not_miss, key_predicted) %>%
@@ -144,4 +145,5 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
                predicted_summary = predicted_summary) )
 }
+
 
