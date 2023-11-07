@@ -26,6 +26,7 @@ agri.read_csv <- function(dir_folder){
 #' @description \code{agri.interpolate}
 #' @export
 
+
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   library(tidyverse)
   # まずは農林業センサスのデータを整形．
@@ -81,7 +82,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   true.vs.predicted <- ggplot()+
     geom_point()+
     aes(predict(fit, indep_learn), dep_learn)+
-    geom_density_2d(bins = 30, size = .2)+
+    geom_density_2d(size = .2)+
     geom_abline(intercept = 0)+
     labs(x = "predicted", y = "TRUE")+
     theme_minimal()
@@ -112,7 +113,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   key_dep <- bind_cols(key, dep) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     filter(KEY_CODE%%1000 != 0)
-  # データフレームの2列目を削除
+    # データフレームの2列目を削除
   key_dep <- key_dep[is.na(key_dep[, 2]), ]
   # indepとkey_depを結合．欠損していたデータだけのDFを作成→matrix
   target <- left_join(key_dep, indep, by = "KEY_CODE") %>%
@@ -141,6 +142,5 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
     arrange(KEY_CODE)
 
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
-               predicted_summary = predicted_summary, fit = fit) )
+               predicted_summary = predicted_summary) )
 }
-
