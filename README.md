@@ -11,7 +11,8 @@ The goal of agribbit is to ...
 You can install the development version of agribbit like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("devtools")
+devtools::install_github("Ymgc19/agribbit")
 ```
 
 ## Example
