@@ -27,6 +27,7 @@ agri.read_csv <- function(dir_folder){
 #' @export
 
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
+  library(tidyverse)
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
   indep <- df %>%
