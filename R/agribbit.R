@@ -78,13 +78,13 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   fit
 
   # 真値と予測値のgeom_point
-#  true.vs.predicted <- ggplot()+
-#    geom_point()+
-#    aes(predict(fit, indep_learn), dep_learn)+
-#    geom_density_2d(size = .2)+
-#    geom_abline(intercept = 0)+
-#    labs(x = "predicted", y = "TRUE")+
-#    theme_minimal()
+  true.vs.predicted <- ggplot()+
+    geom_point()+
+    aes(predict(fit, indep_learn), dep_learn)+
+    geom_density_2d(size = .2)+
+    geom_abline(intercept = 0)+
+    labs(x = "predicted", y = "TRUE")+
+    theme_minimal()
 
   # 欠損しているデータの説明変数行列を作成する
   indep <- df %>%
@@ -118,7 +118,9 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   target <- left_join(key_dep, indep, by = "KEY_CODE") %>%
     dplyr::select(-1, -2) %>%
     as.matrix()
+  print(class(target))
   # 予測値の出力
+  #################################################ここに問題がある
   predicted_vec <- predict(fit, target)
   key_predicted <- bind_cols(predicted_vec, key_dep)
   colnames(key_predicted)[1] <- paste("inputed", obj, sep = "_")
