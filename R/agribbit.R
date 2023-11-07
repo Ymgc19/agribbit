@@ -76,7 +76,6 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
 
   # ここから学習
   fit <- kernlab::gausspr(indep_learn, dep_learn, kernel = kernel, variance.model=T)
-  fit
 
   # 真値と予測値のgeom_point
   true.vs.predicted <- ggplot()+
@@ -142,6 +141,6 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
     arrange(KEY_CODE)
 
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
-               predicted_summary = predicted_summary) )
+               predicted_summary = predicted_summary, fit = fit) )
 }
 
