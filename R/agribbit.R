@@ -1,13 +1,6 @@
 #' @title to read files
 #' @description \code{agri.read_csv}
-#'
-#' @importFrom パッケージ名 関数名
-#' @param 引数 説明
-#' @return 出力の説明
-#' @export
-#' @examples
-#' 関数の例
-#'
+
 
 agri.read_csv <- function(dir_folder){
   library(tidyverse)
@@ -31,14 +24,6 @@ agri.read_csv <- function(dir_folder){
 
 #' @title to interpolate missing values
 #' @description \code{agri.interpolate}
-#'
-#' @importFrom パッケージ名 関数名
-#' @param 引数 説明
-#' @return 出力の説明
-#' @export
-#' @examples
-#' 関数の例
-#'
 
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   library(tidyverse)
