@@ -10,6 +10,7 @@
 #'
 
 agri.read_csv <- function(dir_folder){
+  library(tidyverse)
   fs::dir_ls(here::here(dir_folder),
            recurse = TRUE,
            regexp = ".txt$") %>%
@@ -40,6 +41,7 @@ agri.read_csv <- function(dir_folder){
 #'
 
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
+  library(tidyverse)
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
   indep <- df %>%
