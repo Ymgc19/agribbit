@@ -116,11 +116,11 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
   # データフレームの2列目を削除
   key_dep <- key_dep[is.na(key_dep[, 2]), ]
   # indepとkey_depを結合．欠損していたデータだけのDFを作成→matrix
-  target <- left_join(key_dep, indep, by = "KEY_CODE") %>%
+  tar <- left_join(key_dep, indep, by = "KEY_CODE") %>%
     dplyr::select(-1, -2) %>%
     as.matrix()
   # 予測値の出力
-  predicted_vec <- predict(fit, target)
+  predicted_vec <- predict(fit, tar)
   key_predicted <- bind_cols(predicted_vec, key_dep)
   colnames(key_predicted)[1] <- paste("inputed", target, sep = "_")
   key_predicted <- key_predicted %>%
