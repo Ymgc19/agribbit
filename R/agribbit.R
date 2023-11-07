@@ -27,8 +27,7 @@ agri.read_csv <- function(dir_folder){
 #' @export
 
 
-agri.interpolate <- function(df, obj, kernel = "rbfdot"){
-  library(tidyverse)
+agri.interpolation <- function(df, obj, kernel = "rbfdot"){
   # まずは農林業センサスのデータを整形．
   # 説明変数のデータのmatrixを調整
   indep <- df %>%
@@ -77,6 +76,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
 
   # ここから学習
   fit <- kernlab::gausspr(indep_learn, dep_learn, kernel = kernel, variance.model=T)
+  fit
 
   # 真値と予測値のgeom_point
   true.vs.predicted <- ggplot()+
@@ -113,7 +113,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   key_dep <- bind_cols(key, dep) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     filter(KEY_CODE%%1000 != 0)
-    # データフレームの2列目を削除
+  # データフレームの2列目を削除
   key_dep <- key_dep[is.na(key_dep[, 2]), ]
   # indepとkey_depを結合．欠損していたデータだけのDFを作成→matrix
   target <- left_join(key_dep, indep, by = "KEY_CODE") %>%
@@ -140,10 +140,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   ret_df <- bind_rows(not_miss, key_predicted) %>%
     # ここでソートするkeycodeで
     arrange(KEY_CODE)
-  ret_df <- left_join(df, ret_df, by = "KEY_CODE")
 
-  # 出力
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
-               predicted_summary = predicted_summary, fit = fit,
-               ) )
+               predicted_summary = predicted_summary) )
 }
