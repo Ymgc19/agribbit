@@ -1,6 +1,6 @@
 #' @title to read files
 #' @description \code{agri.read_csv}
-
+#' @export
 
 agri.read_csv <- function(dir_folder){
   library(tidyverse)
@@ -24,6 +24,7 @@ agri.read_csv <- function(dir_folder){
 
 #' @title to interpolate missing values
 #' @description \code{agri.interpolate}
+#' @export
 
 agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   library(tidyverse)
