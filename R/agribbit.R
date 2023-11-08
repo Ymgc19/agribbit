@@ -148,4 +148,31 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
 }
 
 
+#' @title to interpolate missing values
+#' @description \code{agri.join}
+#' @export
+
+agri.join <- function(shp, df){
+  return(
+    left_join(shp, df, by = "KEY_CODE")
+  )
+}
+
+
+#' @title to interpolate missing values
+#' @description \code{agri.sf_plot_continuous}
+#' @export
+
+agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = ""){
+  return(
+    df %>%
+      ggolot()+
+      geom_sf(color = NA)+
+      aes(fill = variable)+
+      scale_fill_gradient(low = "cyan", high = "tomato")+
+      theme_minimal()
+  )
+}
+
+
 
