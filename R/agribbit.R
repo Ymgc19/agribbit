@@ -118,7 +118,6 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   target <- left_join(key_dep, indep, by = "KEY_CODE") %>%
     dplyr::select(-1, -2) %>%
     as.matrix()
-  print(class(target))
   # 予測値の出力
   #################################################ここに問題がある
   predicted_vec <- predict(fit, target)
