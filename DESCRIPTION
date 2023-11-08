@@ -15,4 +15,5 @@ Imports:
     dplyr,
     kernlab,
     magrittr,
-    readr
+    readr,
+    ggplot2
