@@ -167,11 +167,12 @@ agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = 
   plt <- df %>%
     ggplot()+
     geom_sf(color = NA)+
-    aes(fill = variable)+
+    aes(fill = cat(paste0(df, "$", variable)))+
     scale_fill_gradient(low = "cyan", high = "tomato")+
     theme_minimal()
   return(plt)
 }
+
 
 
 
