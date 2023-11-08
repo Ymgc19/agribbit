@@ -6,16 +6,6 @@
 \usage{
 agri.interpolate(df, obj, kernel = "rbfdot")
 }
-\arguments{
-\item{引数}{説明}
-}
-\value{
-出力の説明
-}
 \description{
 \code{agri.interpolate}
-}
-\examples{
-関数の例
-
 }
