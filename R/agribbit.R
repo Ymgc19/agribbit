@@ -177,9 +177,9 @@ agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = 
 
 
 #' @title to interpolate missing values
-#' @description \code{agri.correct_census}
+#' @description \code{agri.collect_census}
 #' @export
-agri.correct_census <- function(pref_number){
+agri.collect_census <- function(pref_number){
   library(utils)
   url1 <- "https://www.e-stat.go.jp/gis/statmap-search/data?statsId=T0010"
   url2 <- "&code="
@@ -187,7 +187,7 @@ agri.correct_census <- function(pref_number){
   url3 <- "&downloadType=2"
 
   # ディレクトリを作成
-  download_dir <- paste(as.character(pref_number), "農林業センサス2020")
+  download_dir <- paste(as.character(pref_number), "農林業センサス2020", sep = "")
   if (!file.exists(download_dir)) {
     dir.create(download_dir)
   }
@@ -208,4 +208,29 @@ agri.correct_census <- function(pref_number){
     file.remove(file.path(download_dir, filename))
   }
 }
+
+
+
+#' @title to collect shape files from internet
+#' @description \code{agri.collect_shp}
+#' @export
+
+agri.collect_shp <- function(pref_number) {
+  library(sf)
+  url1 <- "https://www.e-stat.go.jp/gis/statmap-search/data?dlserveyId=A005002092007&code="
+  pref_num <- as.character(pref_number)
+  url2 <- "&coordSys=2&format=shape&downloadType=5&datum=2011"
+  url <- paste(url1, pref_num, url2, sep = "")
+  # フォルダ名の作成
+  folder_name <- paste(pref_num, "農林業センサス2020_shp", sep = "")
+  dir.create(folder_name, showWarnings = FALSE)
+  # ZIPファイルをダウンロードし、解凍
+  zip_file <- file.path(folder_name, "shapefile.zip")
+  download.file(url, destfile = zip_file, mode = "wb") # 'wb'モードでバイナリファイルをダウンロード
+  unzip(zip_file, exdir = folder_name)
+  # ZIPファイルを削除
+  file.remove(zip_file)
+}
+
+
 
