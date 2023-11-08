@@ -166,7 +166,7 @@ agri.join <- function(shp, df){
 agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = ""){
   return(
     df %>%
-      ggolot()+
+      ggplot()+
       geom_sf(color = NA)+
       aes(fill = variable)+
       scale_fill_gradient(low = "cyan", high = "tomato")+
