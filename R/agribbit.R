@@ -119,7 +119,6 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
     dplyr::select(-1, -2) %>%
     as.matrix()
   # 予測値の出力
-  #################################################ここに問題がある
   predicted_vec <- predict(fit, target)
   key_predicted <- bind_cols(predicted_vec, key_dep)
   colnames(key_predicted)[1] <- paste("inputed", obj, sep = "_")
@@ -144,4 +143,6 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
                predicted_summary = predicted_summary) )
 }
+
+
 
