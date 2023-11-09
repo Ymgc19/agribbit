@@ -218,10 +218,10 @@ agri.collect_census <- function(pref_code){
 #' @description \code{agri.collect_shp}
 #' @export
 
-agri.collect_shp <- function(pref_number) {
+agri.collect_shp <- function(pref_code) {
   library(sf)
   url1 <- "https://www.e-stat.go.jp/gis/statmap-search/data?dlserveyId=A005002092007&code="
-  pref_num <- as.character(pref_number)
+  pref_num <- as.character(pref_code)
   url2 <- "&coordSys=2&format=shape&downloadType=5&datum=2011"
   url <- paste(url1, pref_num, url2, sep = "")
   # フォルダ名の作成
@@ -247,10 +247,10 @@ agri.frog_rain <- function(n = 100){
       cat("🐸", "\n")
     }
     if (r < 0.5 & r >= 0.1){
-      cat("　", "\n")
+      cat("🥒", "\n")
     }
     if (r < 0.1){
-      cat("🥒", "\n")
+      cat("☔️", "\n")
     }
   }
 }
