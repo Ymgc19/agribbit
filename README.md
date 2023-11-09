@@ -21,7 +21,6 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(agribbit)
-## basic example code
 ```
 
 If you want to collet census data of Toyama Pref. and interpolate missing values, following code enable you to do it. I also show the example to draw maps with this package.
