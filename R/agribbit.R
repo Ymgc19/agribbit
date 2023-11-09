@@ -178,15 +178,18 @@ agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = 
 #' @title to interpolate missing values
 #' @description \code{agri.collect_census}
 #' @export
-agri.collect_census <- function(pref_number){
+agri.collect_census <- function(pref_code){
   library(utils)
+  if (pref_code <= 9){
+    pref_code <- as.character(paste("0", pref_code, sep = ""))
+  }
   url1 <- "https://www.e-stat.go.jp/gis/statmap-search/data?statsId=T0010"
   url2 <- "&code="
-  pref_number <- as.character(pref_number)  # pref_number を文字列に変換する必要があります
+  pref_code <- as.character(pref_code)  # pref_number を文字列に変換する必要があります
   url3 <- "&downloadType=2"
 
   # ディレクトリを作成
-  download_dir <- paste(as.character(pref_number), "農林業センサス2020", sep = "")
+  download_dir <- paste(as.character(pref_code), "農林業センサス2020", sep = "")
   if (!file.exists(download_dir)) {
     dir.create(download_dir)
   }
@@ -194,7 +197,7 @@ agri.collect_census <- function(pref_number){
   zip_url <- c()  # zip_url ベクトルを初期化
   for (i in 1:35){
     num <- i + 38
-    url4 <- paste0(url1, as.character(num), url2, pref_number, url3)  # url を正しく生成
+    url4 <- paste0(url1, as.character(num), url2, pref_code, url3)  # url を正しく生成
     zip_url <- c(zip_url, url4)  # zip_url ベクトルに追加
   }
 
@@ -207,6 +210,7 @@ agri.collect_census <- function(pref_number){
     file.remove(file.path(download_dir, filename))
   }
 }
+
 
 
 
