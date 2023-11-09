@@ -16,9 +16,9 @@ agri.read_as_csv <- function(dir_folder){
     \(x) read_delim(x, delim = ",",
                     locale = locale(encoding = "cp932"))
   ) %>%
-  dplyr::left_join(by = "KEY_CODE") #%>%
-#  mutate(KEY_CODE = KEY_CODE...1) %>%
-#  dplyr::select(-contains("."))
+  dplyr::left_join(by = "KEY_CODE") %>%
+  mutate(KEY_CODE = KEY_CODE...1) %>%
+  dplyr::select(-contains("."))
 }
 
 
