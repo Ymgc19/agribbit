@@ -153,6 +153,8 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
 #' @export
 
 agri.join <- function(shp, df){
+  shp <- shp %>%
+    mutate(KEY_CODE = as.numeric(KEY_CODE))
   return(
     left_join(shp, df, by = "KEY_CODE")
   )
@@ -209,6 +211,7 @@ agri.collect_census <- function(pref_code){
     txt_files <- list.files(download_dir, pattern = ".txt", full.names = TRUE)
     file.remove(file.path(download_dir, filename))
   }
+  return(download_dir)
 }
 
 
