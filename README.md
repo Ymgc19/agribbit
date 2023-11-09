@@ -26,7 +26,7 @@ library(agribbit)
 
 If you want to collet census data of Toyama Pref. and interpolate missing values, following code enable you to do it. I also show the example to draw maps with this package.
 ``` r
-# 農林業センサスの宮城県データをまとめて読み込む．
+# 農林業センサスの富山県データをまとめて読み込む．富山県の都道府県コードは16なので，引数でそれを指定する．
 agribbit::agri.collect_census(16)
 
 # 富山県データをまとめて読み込む
