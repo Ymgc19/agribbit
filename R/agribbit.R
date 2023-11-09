@@ -17,7 +17,7 @@ agri.read_as_csv <- function(dir_folder){
                     locale = locale(encoding = "cp932"))
   ) %>%
   dplyr::bind_cols() %>%
-  mutate(KEY_CODE = KEY_CODE...1) %>%
+#  mutate(KEY_CODE = KEY_CODE...1) %>%
   dplyr::select(-contains("."))
 }
 
