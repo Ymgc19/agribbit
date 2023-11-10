@@ -167,8 +167,7 @@ agri.join <- function(shp, df){
 #' @description \code{agri.sf_plot_continuous}
 #' @export
 
-agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
-  variable <- cat(df, "$", variable)
+agri.sf_plot_continuous <- function(df, variable, xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
   df %>%
     ggplot()+
     geom_sf(color = NA)+
