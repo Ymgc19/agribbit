@@ -72,22 +72,21 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
       -T001072002, -T001072005, -T001072008, -T001072011, -T001072014, -T001071001, -T001071003,
       -T001070013, -T001067002
     )
-
-  dep <- df[,obj]
-  key <- as.numeric(df[, "KEY_CODE"])
+  dep <- df[,target]
+  key <- df[, "KEY_CODE"]
   dep <- bind_cols(key, dep)
   dep <- dep %>%
     filter(
-      KEY_CODE%%1000 != 0
+      as.numeric(KEY_CODE)%%1000 != 0
     ) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0")))
-  return(indep)
+
+
+
+  return(dep)
 }
 
 
-agri.interpolate(toyama) %>%
-  glimpse()
-
-
+agri.interpolate(df = toyama, target = "T001044002")
 
 
