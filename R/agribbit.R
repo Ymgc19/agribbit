@@ -274,7 +274,7 @@ agri.read_census <- function(pref_code){
   }
   download_dir <- paste(as.character(pref_code), "農林業センサス2020", sep = "")
   df <- agribbit::agri.read_as_csv(download_dir)
-  #  file.remove(file.path(download_dir)) # このファイルがemptyではないのでerrorが出てくる．
+  unlink(download_dir, recursive = T)
   return(df)
 }
 
