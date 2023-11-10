@@ -34,9 +34,10 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
     dplyr::select(
       contains(c("KEY_CODE", "1039", "1065", "1067", "1068", "1069", "1070", "1071", "1072", "1073"))
     ) %>%
-    filter(KEY_CODE%%1000 != 0) %>%
     # "-"を0に置換
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
+    # 農業集落のデータだけを抽出
+    filter(KEY_CODE%%1000 != 0) %>%
     # hozen_sumとyoriai_sumとjissen_sumを作成
     mutate(
       hozen_sum = T001072001 + T001072004 + T001072007 + T001072010 + T001072013,
