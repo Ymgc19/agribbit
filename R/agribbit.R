@@ -53,7 +53,7 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
 
   # ここから目的変数ベクトルの作成
   dep <- df[,obj]
-  key <- df[, "KEY_CODE"]
+  key <- as.numeric(df[, "KEY_CODE"])
   dep <- bind_cols(key, dep)
   dep <- dep %>%
     filter(
