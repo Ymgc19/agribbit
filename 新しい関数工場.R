@@ -4,7 +4,8 @@ library(agribbit)
 
 # estatからtxtを取得して読み込み．そしてその後フォルダを削除．
 
-agri.read_census <- function(pref_code, place){
+
+agri.read_census <- function(pref_code){
   agribbit::agri.collect_census(pref_code)
   if (pref_code <= 9){
     pref_code <- as.character(paste("0", pref_code, sep = ""))
@@ -18,9 +19,7 @@ agri.read_census <- function(pref_code, place){
   return(df)
 }
 
-
-miyagi <- agri.read_census(18)
-miyagi %>% glimpse()
+hokkaido <- agri.read_census(1)
 
 
 
