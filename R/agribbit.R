@@ -167,12 +167,14 @@ agri.join <- function(shp, df){
 #' @description \code{agri.sf_plot_continuous}
 #' @export
 
-agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = ""){
+agri.sf_plot_continuous <- function(df, variable,xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
+  variable <- cat(df, "$", variable)
   df %>%
     ggplot()+
     geom_sf(color = NA)+
     aes(fill = variable)+
-    scale_fill_gradient(low = "cyan", high = "tomato")+
+    scale_fill_gradient(low = fill_low, high = fill_high)+
+    labs(x = xlab, y = ylab, fill = fill)+
     theme_minimal()
 }
 
