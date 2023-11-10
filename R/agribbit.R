@@ -143,6 +143,8 @@ agri.interpolate <- function(df, obj, kernel = "rbfdot"){
   ret_df <- bind_rows(not_miss, key_predicted) %>%
     # ここでソートするkeycodeで
     arrange(KEY_CODE)
+  df <- df %>%
+    mutate(KEY_CODE = as.numeric(KEY_CODE))
   ret_df <- left_join(df, ret_df, by = "KEY_CODE")
 
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
