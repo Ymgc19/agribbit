@@ -158,6 +158,8 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
 agri.join <- function(shp, df){
   shp <- shp %>%
     mutate(KEY_CODE = as.numeric(KEY_CODE))
+  df <- df %>%
+    mutate(KEY_CODE = as.numeric(KEY_CODE))
   return(
     left_join(shp, df, by = "KEY_CODE")
   )
@@ -301,7 +303,8 @@ agri.read_census_shp <- function(pref_code){
   folder_name <- paste(pref_code, "農林業センサス2020_shp", sep = "")
   file_name <- paste("agri2020", pref_code, ".shp", sep = "")
   shp_place <- paste(folder_name, file_name, sep = "/")
-  shp <- read_sf(shp_place) %>%
+  shp <- read_sf(shp_place)
+  shp <- shp %>%
     mutate(KEY_CODE = as.numeric(KEY_CODE))
   return(shp)
 }
