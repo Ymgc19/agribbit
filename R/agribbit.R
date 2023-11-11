@@ -228,9 +228,11 @@ agri.collect_census <- function(pref_code){
 agri.collect_shp <- function(pref_code) {
   library(sf)
   url1 <- "https://www.e-stat.go.jp/gis/statmap-search/data?dlserveyId=A005002092007&code="
-  pref_num <- as.character(pref_code)
+  if (pref_code <= 9){
+    pref_code <- as.character(paste("0", pref_code, sep = ""))
+  }
   url2 <- "&coordSys=2&format=shape&downloadType=5&datum=2011"
-  url <- paste(url1, pref_num, url2, sep = "")
+  url <- paste(url1, pref_code, url2, sep = "")
   # フォルダ名の作成
   folder_name <- paste(pref_num, "農林業センサス2020_shp", sep = "")
   dir.create(folder_name, showWarnings = FALSE)
@@ -283,4 +285,14 @@ agri.read_census <- function(pref_code){
   return(df)
 }
 
+
+# shpのobjを出力する関数
+#' @title to look at cute frogs!!!
+#' @description \code{agri.frog_rain}
+#' @export
+agri.read_census_shp <- function(pref_code){
+  agribbit::agri.collect_shp(pref_code)
+  folder_name <- paste(pref_code, "農林業センサス2020_shp", sep = "")
+  shp <- read_sf()
+}
 
