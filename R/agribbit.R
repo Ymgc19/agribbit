@@ -234,7 +234,7 @@ agri.collect_shp <- function(pref_code) {
   url2 <- "&coordSys=2&format=shape&downloadType=5&datum=2011"
   url <- paste(url1, pref_code, url2, sep = "")
   # フォルダ名の作成
-  folder_name <- paste(pref_num, "農林業センサス2020_shp", sep = "")
+  folder_name <- paste(pref_code, "農林業センサス2020_shp", sep = "")
   dir.create(folder_name, showWarnings = FALSE)
   # ZIPファイルをダウンロードし、解凍
   zip_file <- file.path(folder_name, "shapefile.zip")
