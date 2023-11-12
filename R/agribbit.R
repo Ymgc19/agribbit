@@ -167,14 +167,14 @@ agri.join <- function(shp, df){
 
 
 #' @title to interpolate missing values
-#' @description \code{agri.sf_plot_continuous}
+#' @description \code{agri.fast_draw}
 #' @export
 
-agri.sf_plot_continuous <- function(df, variable, xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
+agri.fast_draw <- function(df, variable, xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
   df %>%
     ggplot()+
     geom_sf(color = NA)+
-    aes(fill = variable)+
+    aes(fill = as.numeric(variable))+
     scale_fill_gradient(low = fill_low, high = fill_high)+
     labs(x = xlab, y = ylab, fill = fill)+
     theme_minimal()

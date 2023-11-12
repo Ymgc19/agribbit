@@ -4,7 +4,7 @@
 \alias{agri.interpolate}
 \title{to interpolate missing values}
 \usage{
-agri.interpolate(df, obj, kernel = "rbfdot")
+agri.interpolate(df, target, kernel = "rbfdot")
 }
 \description{
 \code{agri.interpolate}

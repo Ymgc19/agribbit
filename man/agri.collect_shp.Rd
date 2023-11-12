@@ -4,7 +4,7 @@
 \alias{agri.collect_shp}
 \title{to collect shape files from internet}
 \usage{
-agri.collect_shp(pref_number)
+agri.collect_shp(pref_code)
 }
 \description{
 \code{agri.collect_shp}

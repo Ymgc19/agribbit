@@ -4,7 +4,7 @@
 \alias{agri.collect_census}
 \title{to interpolate missing values}
 \usage{
-agri.collect_census(pref_number)
+agri.collect_census(pref_code)
 }
 \description{
 \code{agri.collect_census}
