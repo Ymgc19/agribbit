@@ -171,7 +171,7 @@ agri.join <- function(shp, df){
 #' @export
 
 agri.fast_draw <- function(df, variable, xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
-  variable <- variable %>% as.numeric(str_replace_all(., "-", "0"))
+  variable = as.numeric(ifelse(variable == "-", "0", variable))
   df %>%
     ggplot()+
     geom_sf(color = NA)+
