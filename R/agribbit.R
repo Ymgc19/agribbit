@@ -29,6 +29,7 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
   library(kernlab)
   library(tidyverse)
 
+  df <- df %>% as.data.frame()
   # 説明変数の行列を作成
   indep <- df %>%
     dplyr::select(
@@ -308,5 +309,34 @@ agri.read_census_shp <- function(pref_code){
   shp <- shp %>%
     mutate(KEY_CODE = as.numeric(KEY_CODE))
   return(shp)
+}
+
+
+
+
+inputed_
+
+
+# 特徴量エンジニアリング関数
+agri.fe_houjin <- function(df){
+  df <- df %>%
+  mutate(
+    # 法人化している農業経営体数
+    fe_per_houjin = inputed_T001041002 / inputed_T001041001,
+    # 農産物販売金額平均
+    fe_mean_sell = (inputed_T001042002*0 + inputed_T001042003*25 + inputed_T001042004*75 + inputed_T001042005*200 +
+                      inputed_T001042006*400 + inputed_T001042007*750 + inputed_T001042008*2000 + inputed_T001042009*4000 +
+                      inputed_T001042010*7500 + inputed_T001042011*15000 + inputed_T001042012*25000 + inputed_T001042013*40000 +
+                      inputed_T001042014*60000) / inputed_T001042001,
+    # 農産物販売金額1位の部門別経営体数割合
+    fe_per_rice = inputed_T001043002 / inputed_T001043001,
+    # 農業関連生産事業をおこなっている経営体の割合
+    fe_per_kanren = inputed_T001046003 / inputed_T001046001,
+    # 農産物の販売をおこなった経営体の割合
+    fe_per_hanbai = inputed_T001047003 / inputed_T001047001,
+    # 農産物の売上1位のものが農協である割合
+    fe_per_noukyo = inputed_T001048002 / inputed_T001048001,
+    # 経営高地面積規模の平均値
+  )
 }
 
