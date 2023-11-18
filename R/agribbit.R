@@ -314,7 +314,6 @@ agri.read_census_shp <- function(pref_code){
 
 
 
-inputed_
 
 
 # 特徴量エンジニアリング関数
@@ -329,14 +328,39 @@ agri.fe_houjin <- function(df){
                       inputed_T001042010*7500 + inputed_T001042011*15000 + inputed_T001042012*25000 + inputed_T001042013*40000 +
                       inputed_T001042014*60000) / inputed_T001042001,
     # 農産物販売金額1位の部門別経営体数割合
-    fe_per_rice = inputed_T001043002 / inputed_T001043001,
+    fe_per_rice_top = inputed_T001043002 / inputed_T001043001,
     # 農業関連生産事業をおこなっている経営体の割合
-    fe_per_kanren = inputed_T001046003 / inputed_T001046001,
+    fe_per_kanren_jigyo = inputed_T001046003 / inputed_T001046001,
     # 農産物の販売をおこなった経営体の割合
     fe_per_hanbai = inputed_T001047003 / inputed_T001047001,
     # 農産物の売上1位のものが農協である割合
     fe_per_noukyo = inputed_T001048002 / inputed_T001048001,
-    # 経営高地面積規模の平均値
+    # 経営耕地のうち，田が占める割合
+    fe_per_keiei_paddy = inputed_T001049002 / inputed_T001049006,
+    # 各経営体の経営耕地面積の平均値
+    fe_mean_keiei_field = (inputed_T001050002*0 + inputed_T001050003*0.1 + inputed_T001050004*0.4 + inputed_T001050005*0.7 +
+      inputed_T001050006*1.25 + inputed_T001050007*1.75 + inputed_T001050008*2 + inputed_T001050009*4 + inputed_T001050010*7.5 +
+      inputed_T001050011*15 + inputed_T001050012*25 + inputed_T001050013*40 + inputed_T001050014*75 + inputed_T001050015*125 +
+      inputed_T001050016*200) / inputed_T001050001,
+    # 貸付耕地のある経営体割合
+    fe_per_kahitsuke = inputed_T001052003 / inputed_T001052001,
+    # 稲の作付経営体数
+    fe_per_rice_keieitai = inputed_T001053003 / inputed_T001053001,
+    # 稲の作付面積割合
+    fe_per_rice_menseki = inputed_T001053004 / inputed_T001053002,
+    # 耕地部門の作業を受託した経営体のうち，水稲作を受託した割合
+    fe_per_rice_jitaku = inputed_T001055003 / inputed_T001055002,
+    # 水稲受託作業種類別経営体すうと受託作業面積という変数について何かしたい．
+
+    # 受託料金の平均
+    fe_mean_jutaku = (inputed_T001057002*0 + inputed_T001057003*25 + inputed_T001057004*75 + inputed_T001057005*200 +
+      inputed_T001057006*400 + inputed_T001057007*750 + inputed_T001057008*2000 + inputed_T001057009*4000 +
+      inputed_T001057010*7500 + inputed_T001057011*15000 + inputed_T001057012*25000 + inputed_T001057013*40000 +
+      inputed_T001057014*60000) / inputed_T001057001,
+    # 60日以上農業に従事した人で作る平均値，男女合計
+    fe_mean_work_days = inputed_T001058002*80 + inputed_T001056003*125 + inputed_T001056004*175 + inputed_T001056005*225 + inputed_T001056006*275,
+    # 常雇いの割合，のべ人にち
+    fe_per =
   )
 }
 
