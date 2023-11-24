@@ -25,10 +25,10 @@ agri.read_as_csv <- function(dir_folder){
 #' @description \code{agri.interpolate}
 #' @export
 
+
 agri.interpolate <- function(df, target, kernel = "rbfdot"){
   library(kernlab)
   library(tidyverse)
-
   df <- df %>% as.data.frame()
   # 説明変数の行列を作成
   indep <- df %>%
@@ -49,12 +49,8 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
       -T001070013, -T001067002
     )
 
-  # 目的変数のベクトルを作成
-  # データフレームからtargetとkeycodeを切り出す
-  dep <- df[, target]
-  key <- df[, "KEY_CODE"]
-  dep <- dplyr::bind_cols(key, dep) # 目的変数とキーコードだけが入ったデータフレームが完成
-  dep <- dep %>%
+  dep <- df %>%
+    dplyr::select(KEY_CODE, target) %>%
     mutate(KEY_CODE = as.numeric(KEY_CODE)) %>%
     filter(as.numeric(KEY_CODE)%%1000 != 0) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0")))
@@ -75,8 +71,6 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
 
   # ここから学習開始
   fit <- kernlab::gausspr(indep_learn, dep_learn, kernel = kernel, variance.model=T)
-
-
   # 真値と予測値のgeom_point
   true.vs.predicted <- ggplot()+
     geom_point()+
@@ -85,6 +79,7 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
     geom_abline(intercept = 0)+
     labs(x = "predicted", y = "TRUE")+
     theme_minimal()
+
 
   # 欠損しているデータの説明変数行列を作成する
   indep <- df %>%
@@ -106,38 +101,38 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
       -T001072002, -T001072005, -T001072008, -T001072011, -T001072014, -T001071001, -T001071003,
       -T001070013, -T001067002
     )
-  # 欠損のあるデータだけのデータフレームを作成
-  key <- df[, "KEY_CODE"]
-  dep <- df[, target]
-  key_dep <- bind_cols(key, dep) %>%
+  key_dep <- df %>%
+    dplyr::select(KEY_CODE, target) %>%
     mutate(KEY_CODE = as.numeric(KEY_CODE)) %>%
     filter(as.numeric(KEY_CODE)%%1000 != 0) %>%
     mutate_all(~as.numeric(str_replace_all(., "-", "0")))
 
   # 説明変数indepとkey_depを結合させて，key_depがNAのものだけを抽出 → 説明変数行列に変換
   key_dep <- key_dep[is.na(key_dep[, 2]), ]
+  # 目的変数が欠損していた地域の説明変数行列
   indep_NA <- left_join(key_dep, indep, by = "KEY_CODE") %>%
     dplyr::select(-target, -KEY_CODE) %>%
     as.matrix()
 
-  # indep_NAをモデルに適合
-  # key_depの1列目，欠損データのキーコードを用いる
+  # ここから予測
   predicted_vec <- predict(fit, indep_NA)
   key_predicted <- bind_cols(predicted_vec, key_dep[,1]) # ここでのメッセージを非表示にしたい
   # ここで生成されたkey_predictedの1行目が"...1"なので，名称を変更
   colnames(key_predicted)[1] <- paste("inputed", target, sep = "_")
+  colnames(key_predicted)[2] <- "KEY_CODE"
   # 補完されたデータのsummaryをオブジェクトにして最後に出力
   predicted_summary <- summary(key_predicted[,1])
 
   #欠損していなかったデータのKEYと...1のデータフレームを作成
+  key <- df[, "KEY_CODE"]
   not_miss <- df[, target]
   not_miss <- bind_cols(not_miss, key) %>%
-    mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
-    filter(KEY_CODE%%1000 != 0)
+    mutate_all(~as.numeric(str_replace_all(., "-", "0")))
   not_miss <- not_miss[!is.na(not_miss[, 1]), ]
   colnames(not_miss)[1] <- paste("inputed", target, sep = "_")
+  colnames(not_miss)[2] <- "KEY_CODE"
 
-  # データの結合
+  # 欠損していたdfと欠損していなかったdfを結合．
   ret_df <- bind_rows(not_miss, key_predicted) %>%
     # ここでソートするkeycodeで．
     arrange(KEY_CODE)
@@ -149,6 +144,7 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
   return( list(inputed = ret_df, true.vs.predicted = true.vs.predicted,
                predicted_summary = predicted_summary, fit = fit) )
 }
+
 
 
 
