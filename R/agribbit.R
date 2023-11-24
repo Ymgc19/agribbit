@@ -33,7 +33,7 @@ agri.interpolate <- function(df, target, kernel = "rbfdot"){
     dplyr::select(
       contains(c("KEY_CODE", "1039", "1065", "1067", "1068", "1069", "1070", "1071", "1072", "1073"))
     ) %>%
-    mutate(KEY_CODE = as.numeric(KEY_CODE)) %>%
+#    mutate(KEY_CODE = as.numeric(KEY_CODE)) %>%
     filter(KEY_CODE%%1000 != 0) %>% # 農業集落になっているものだけを抽出
     mutate_all(~as.numeric(str_replace_all(., "-", "0"))) %>%
     mutate( # ちょっとした特徴量エンジニアリング
