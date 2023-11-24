@@ -172,7 +172,7 @@ agri.join <- function(shp, df){
 #' @export
 
 agri.fast_draw <- function(df, variable, xlab = "x", ylab = "y", fill = "", fill_low = "cyan", fill_high = "tomato"){
-  variable = as.numeric(ifelse(variable == "-", "0", variable))
+  variable = ifelse(variable == "-", "0", variable)
   df %>%
     ggplot()+
     geom_sf(color = NA)+
@@ -359,8 +359,9 @@ agri.fe_houjin <- function(df){
       inputed_T001057014*60000) / inputed_T001057001,
     # 60日以上農業に従事した人で作る平均値，男女合計
     fe_mean_work_days = inputed_T001058002*80 + inputed_T001056003*125 + inputed_T001056004*175 + inputed_T001056005*225 + inputed_T001056006*275,
-    # 常雇いの割合，のべ人にち
-    fe_per =
+    # 常雇いの割合，計のべ人日に占める農業の述べ人日の割合
+    fe_per_nobe_agri = inputed_T001059004 / inputed_T001059003,
+    #
   )
 }
 
