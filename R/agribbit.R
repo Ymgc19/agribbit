@@ -29,7 +29,10 @@ agri.read_as_csv <- function(dir_folder){
 agri.interpolate <- function(df, target, kernel = "rbfdot"){
   library(kernlab)
   library(tidyverse)
+<<<<<<< HEAD
   df <- df %>% as.data.frame()
+=======
+>>>>>>> 204d166057a92c027176f810b376d8feba03d0da
   # 説明変数の行列を作成
   indep <- df %>%
     dplyr::select(
