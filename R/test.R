@@ -7,35 +7,22 @@ library(agribbit)
 ishikawa <- agribbit::agri.read_census(16)
 ishikawa %>% glimpse()
 
-# 欠損値補完
-ishikawa_inputed <- ishikawa %>%
-  agri.interpolate_all()
-ishikawa_inputed %>% glimpse()
-
 # まとめてエンジニアリング．
-ishikawa_inputed_fe <- ishikawa_inputed %>%
+ishikawa_inputed_fe <- ishikawa %>%
   agri.fe_census()
 ishikawa_inputed_fe %>% glimpse()
 
+# 補完
+ishikawa_ip <- ishikawa_fe %>%
+  agri.interpolate_fe_vars()
+
 # 空間データ結合
 shp <- agribbit::agri.read_census_shp(16)
-
-ishikawa_inputed_fe <- agri.join(
-  shp, ishikawa_inputed_fe
+df <- agri.join(
+  shp, ishikawa_ip
 )
 
-agri.fast_draw(ishikawa_inputed_fe, ishikawa_inputed_fe$fe_per_nobe_agri)
-
-ishikawa_inputed_fe$inputed_T001042006 %>% summary
-
-
-
-
-
-
-
-
-
+df %>% agri.fast_draw(df$inputed_fe_mean_keiei_field)
 
 
 # shpのobjを出力する関数
@@ -170,3 +157,5 @@ agri.fe_census <- function(df){
       fe_torikumi = T001073001 + T001073003 + T001073005 + T001073007 + T001073009 + T001073011 + T001073013
     )
 }
+
+

@@ -410,7 +410,7 @@ agri.fe_census <- function(df){
                                                            T001050016*200) / T001050001,
                                       TRUE ~ 0),
       # 貸付耕地のある経営体割合
-      fe_per_kahitsuke = case_when(T001052001 != 0 ~ T001052003 / T001052001,
+      fe_per_kashitsuke = case_when(T001052001 != 0 ~ T001052003 / T001052001,
                                    TRUE ~ 0),
       # 稲の作付経営体数
       fe_per_rice_keieitai = case_when(T001053001 != 0 ~ T001053003 / T001053001,
@@ -419,7 +419,7 @@ agri.fe_census <- function(df){
       fe_per_rice_menseki = case_when(T001053002 != 0 ~ T001053004 / T001053002,
                                       TRUE ~ 0),
       # 耕地部門の作業を受託した経営体のうち，水稲作を受託した割合
-      fe_per_rice_jitaku = case_when(T001055002 != 0 ~ T001055003 / T001055002,
+      fe_per_rice_jutaku = case_when(T001055002 != 0 ~ T001055003 / T001055002,
                                      TRUE ~ 0),
       # 水稲受託作業種類別経営体すうと受託作業面積という変数について何かしたい．
       # 受託料金の平均
@@ -496,6 +496,33 @@ agri.fe_census <- function(df){
       fe_torikumi = T001073001 + T001073003 + T001073005 + T001073007 + T001073009 + T001073011 + T001073013
     )
 }
+
+
+
+
+
+# shpのobjを出力する関数
+#' @title to interpolate important variables at once
+#' @description \code{agri.interpolate_fe_vars}
+#' @export
+
+# まとめて欠損値の補完をする関数．
+agri.interpolate_fe_vars <- function(df){
+  df <- df %>% agri.fe_census()
+  var_list <- c("fe_per_houjin", "fe_mean_sell", "fe_per_rice_top", "fe_per_kanren_jigyo",
+                "fe_per_hanbai", "fe_per_noukyo", "fe_per_keiei_paddy", "fe_mean_keiei_field",
+                "fe_per_kashitsuke", "fe_per_rice_keieitai", "fe_per_rice_menseki", "fe_per_rice_jutaku",
+                "fe_mean_jutaku", "fe_mean_work_days", "fe_per_nobe_agri", "fe_per_fukugyo",
+                "fe_per_male", "fe_mean_age", "fe_mean_jiei_days", "fe_per_hanbai_nouka",
+                "fe_per_hanbai_keieikouchi")
+  for (i in 1:length(var_list)){
+    a <- agribbit::agri.interpolate(df, var_list[i])
+    df <- a$inputed
+    print(i / length(var_list))
+  }
+  return(df)
+}
+
 
 
 
