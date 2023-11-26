@@ -1,3 +1,6 @@
+# install.packages("devtools")
+devtools::install_github("Ymgc19/agribbit", force = T)
+
 ishikawa <- agribbit::agri.read_census(17)
 ishikawa_fe <- ishikawa %>% agribbit::agri.fe_census()
 
