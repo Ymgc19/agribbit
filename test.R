@@ -16,20 +16,22 @@ ishikawa_inputed <- ishikawa %>%
 
 # 特徴量エンジニアリングまとめて
 ishikawa_fe <- ishikawa_inputed %>%
-  agri.fe_inputed_census()
+  agribbit::agri.fe_inputed_census()
 
 # feの結果をまとめて確認
 a <- ishikawa_fe %>%
   filter(KEY_CODE%%1000 != 0) %>%
   dplyr::select(contains("fe_")) %>%
-  as.data.frame()
+  rename_with(~gsub("fe_", "", .), starts_with("fe_")) %>%
+  as.data.frame() %>%
+  mutate_all(., scale)
 view(dfSummary(a))
 
 library(corrplot)
 ishikawa_cor <- cor(a)
 col <- colorRampPalette(rev(c("tomato", "cyan", "blue")))
-corrplot(ishikawa_cor, method="shade", shade.col=NA, tl.col="black", tl.srt=30,tl.cex = 0.2,
-         col=col(1000), addCoef.col="black", addcolorlabel="yes", order="AOE", col.names = "small")
+corrplot(ishikawa_cor, method="shade", shade.col=NA, tl.col="black", tl.srt=30,tl.cex = .3,cl.cex = 0.05,
+         col=col(1000), addCoef.col="black", addcolorlabel="no", order="AOE")
 
 
 
