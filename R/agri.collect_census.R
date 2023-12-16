@@ -1,6 +1,6 @@
 #' @title to interpolate missing values
 #' @description \code{agri.collect_census}
-#' @export
+
 agri.collect_census <- function(pref_code){
   library(utils)
   if (pref_code <= 9){

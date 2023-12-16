@@ -1,6 +1,5 @@
 #' @title to collect shape files from internet
 #' @description \code{agri.collect_shp}
-#' @export
 
 agri.collect_shp <- function(pref_code) {
   library(sf)
