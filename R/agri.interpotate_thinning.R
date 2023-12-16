@@ -1,6 +1,5 @@
 #' @title to interpolate missing values
 #' @description \code{agri.interpolate_thinning}
-#' @export
 
 agri.interpolate_thinning <- function(df, target, kernel = "rbfdot", thin = 1){
   library(kernlab)

@@ -4,7 +4,7 @@
 #' @export
 
 # まとめて欠損値の補完をする関数．
-agri.interpolate_importants <- function(df){
+agri.interpolate_importants <- function(df, thin = 2){
   var_list <- c("T001041002", "T001041001",
                 "T001042002", "T001042003", "T001042004",
                 "T001042005", "T001042006", "T001042007", "T001042008", "T001042009",
@@ -40,7 +40,7 @@ agri.interpolate_importants <- function(df){
                 "T001066003", "T001066001"
   )
   for (i in 1:length(var_list)){
-    a <- agribbit::agri.interpolate(df, var_list[i])
+    a <- agribbit::agri.interpolate_thinning(df, var_list[i], thin = thin)
     df <- a$inputed
     print(i / length(var_list))
   }
