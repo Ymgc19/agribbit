@@ -77,8 +77,3 @@ agri.collect_census_maff <- function(pref_code) {
   return(final_df)
 }
 
-
-
-a <- agri.collect_census_maff(17)
-a %>% glimpse()
-a$５年以内に農業を引き継ぐ後継者を確保している_小計 %>% table
