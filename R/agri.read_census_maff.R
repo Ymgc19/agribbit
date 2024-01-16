@@ -1,5 +1,5 @@
 #' @title to interpolate missing values
-#' @description \code{agri.collect_census_maff}
+#' @description \code{agri.read_census_maff}
 #' @export
 
 # エクセルファイルをダウンロードして読み込む関数
