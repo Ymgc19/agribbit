@@ -78,7 +78,9 @@ agri.read_census_maff <- function(pref_code) {
     download.file(url, destfile = temp_file, mode = "wb")
     df <- read_excel(temp_file)
     unlink(temp_file)
-    df_base <- left_join(df_base, df)
+    df_base <- left_join(df_base, df,
+                         by = c("key", "pref", "city", "kcity", "rcom", "pref_name",
+                                "city_name", "kcity_name", "rcom_name"))
   }
   return(df_base)
 }
