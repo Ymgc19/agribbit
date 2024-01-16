@@ -73,7 +73,7 @@ agri.read_census_maff <- function(pref_code) {
     unlink(temp_file)
     dfs[[i]] <- df
   }
-  final_df <- bind_rows(dfs)
+  final_df <- left_join(dfs)
   return(final_df)
 }
 
