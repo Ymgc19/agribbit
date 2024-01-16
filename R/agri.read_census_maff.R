@@ -3,7 +3,7 @@
 #' @export
 
 # エクセルファイルをダウンロードして読み込む関数
-agri.collect_census_maff <- function(pref_code) {
+agri.read_census_maff <- function(pref_code) {
   # codeの整形
   if (pref_code <= 9){
     pref_code <- as.character(paste("0", pref_code, sep = ""))
