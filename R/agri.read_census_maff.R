@@ -4,6 +4,7 @@
 
 # エクセルファイルをダウンロードして読み込む関数
 agri.read_census_maff <- function(pref_code) {
+  library(tidyverse)
   # codeの整形
   if (pref_code <= 9){
     pref_code <- as.character(paste("0", pref_code, sep = ""))
@@ -63,17 +64,22 @@ agri.read_census_maff <- function(pref_code) {
   )
   url_last <- ".xlsx"
   dfs <- list()
+  url <- paste0(url_list[1], as.character(pref_code), url_last)
+  temp_file <- tempfile(fileext = ".xlsx")
+  download.file(url, destfile = temp_file, mode = "wb")
+  df_base <- read_excel(temp_file)
+  unlink(temp_file)
+
   # for文でまとめて読み込み
-  for (i in 1:39){
+  for (i in 2:39){
     # urlの生成
     url <- paste0(url_list[i], as.character(pref_code), url_last)
     temp_file <- tempfile(fileext = ".xlsx")
     download.file(url, destfile = temp_file, mode = "wb")
     df <- read_excel(temp_file)
     unlink(temp_file)
-    dfs[[i]] <- df
+    df_base <- left_join(df_base, df)
   }
-  final_df <- bind_cols(dfs)
-  return(final_df)
+  return(df_base)
 }
 
