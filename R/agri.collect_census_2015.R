@@ -27,7 +27,7 @@ agri.collect_census_2015 <- function(pref_code){
 
   # for文でデータを全て読み込む
   for (url in zip_url) {
-    filename <- basename(url)
+    filename <- paste0("tbl", substr(basename(url), 14, 20), "C", pref_number, ".zip")
     download.file(url, destfile = file.path(download_dir, filename), mode = "wb")
     unzip(file.path(download_dir, filename), exdir = download_dir)
     txt_files <- list.files(download_dir, pattern = ".txt", full.names = TRUE)
