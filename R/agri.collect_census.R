@@ -8,7 +8,7 @@ agri.collect_census <- function(pref_code){
   }
   url1 <- "https://www.e-stat.go.jp/gis/statmap-search/data?statsId=T0010"
   url2 <- "&code="
-  pref_code <- as.character(pref_code)  # pref_number を文字列に変換する必要があります
+  pref_code <- as.character(pref_code)  # pref_number を文字列に変換する
   url3 <- "&downloadType=2"
 
   # ディレクトリを作成
