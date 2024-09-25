@@ -1,6 +1,8 @@
+devtools::install_github("Ymgc19/agribbit", force = TRUE)
+
 library(agribbit)
 
-akita <- agribbit::agri.read_census(pref_number = 5)
+akita <- agribbit::agri.read_census(5)
 akita %>% glimpse()
 
 akita_shp <- agri.read_census_shp(5)
